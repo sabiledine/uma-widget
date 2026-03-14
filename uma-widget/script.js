@@ -34,18 +34,31 @@ function saveUser() {
     const pseudo = pseudoInput ? pseudoInput.value.trim() : "";
     const pin = pinInput ? pinInput.value.trim() : "";
     
-    if (pseudo !== "") {
-        if (pinInput && pin !== "") {
-            currentUser = `${pseudo}-${pin}`; 
-        } else if (!pinInput) {
-            currentUser = pseudo; 
-        } else {
-            alert("Please enter your pin code !");
-            return;
-        }
-        checkUser(); 
+    if (pseudo !== "" && pin !== "") {
+        const tempUser = `${pseudo}-${pin}`; 
+        
+        // Ask firebase if the acc exists
+        const checkUrl = `${FIREBASE_BASE_URL}${tempUser}.json`;
+        
+        fetch(checkUrl)
+            .then(response => response.json())
+            .then(data => {
+                if (data !== null) {
+                    // The account exists
+                    currentUser = tempUser;
+                    checkUser(); // Launch widget
+                } else {
+                    // the acc isn't in the firebase
+                    alert("⮽ Username or password incorrect or does not exists!");
+                }
+            })
+            .catch(error => {
+                console.error("Erreur de vérification:", error);
+                alert("⚠  Network error! Can't check if login exist.");
+            });
+            
     } else {
-        alert("Please enter your username !");
+        alert("Veuillez entrer un pseudo ET un code PIN !");
     }
 }
 function logoutUser() {
