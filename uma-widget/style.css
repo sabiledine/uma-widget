@@ -1,0 +1,213 @@
+body {
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+    background-color: #121212; 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+.widget {
+    /* Android/iOS widget 2x4 format */
+    width: 360px;
+    height: 170px;
+    border-radius: 24px;
+    background-image: url('img/background.jpg');
+    background-size: cover;
+    background-position: center 60%;
+    position: relative;
+    color: white;
+    overflow: hidden;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.5);
+}
+
+.gradient-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 60%;
+    background: linear-gradient(to top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0) 100%);
+    z-index: 1;
+}
+
+.top-row {
+    position: absolute;
+    top: 15px;
+    left: 15px;
+    right: 15px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    z-index: 2;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.6);
+}
+
+.date-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#day-name {
+    font-size: 0.85rem;
+    font-weight: 600;
+    opacity: 0.9;
+}
+
+#date-num {
+    font-size: 1.5rem;
+    font-weight: 800;
+    letter-spacing: 1px;
+}
+
+.sync-status {
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(4px);
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.stats-row {
+    position: absolute;
+    bottom: 12px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+    z-index: 2;
+    padding: 0 10px;
+    box-sizing: border-box;
+}
+
+.stat-col {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.8);
+}
+
+.icon {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+}
+
+.stat-value {
+    font-size: 1.1rem;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+}
+
+.stat-sub {
+    font-size: 0.75rem;
+    color: #cccccc;
+    font-weight: 500;
+    margin-top: 2px;
+}
+.stat-icon {
+    width: 1.4em;
+    height: 1.2em;
+}
+.overlay {
+    position: fixed;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: rgba(18, 18, 18, 0.95);
+    z-index: 100;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.login-box {
+    width: 360px;
+    height: 170px;
+    border-radius: 24px;
+    box-sizing: border-box;
+    background: linear-gradient(135deg, #4a148c 0%, #b71c1c 100%);
+    box-shadow: 0 10px 30px rgba(183, 28, 28, 0.4);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+}
+
+.login-box h2 {
+    margin: 0 0 20px 0;
+    font-size: 1.4rem;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5);
+}
+
+.login-form-row {
+    display: flex;
+    gap: 10px;
+}
+
+.login-box input {
+    padding: 10px 15px;
+    border-radius: 12px;
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    background: rgba(0, 0, 0, 0.2);
+    color: white;
+    width: 160px;
+    font-size: 1rem;
+    outline: none;
+    backdrop-filter: blur(5px);
+}
+
+.login-box input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
+
+.login-box input:focus {
+    border-color: #ff8a80;
+    background: rgba(0, 0, 0, 0.4);
+}
+
+.login-box button {
+    background: white;
+    color: #b71c1c;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.login-box button:hover {
+    transform: scale(1.05);
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
+/* logout button*/
+.header-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+#btn-logout, #btn-bg {
+    background: rgba(255, 255, 255, 0.2);
+    border: none;
+    color: white;
+    border-radius: 50%;
+    width: 24px;
+    height: 24px;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1rem;
+    transition: background 0.2s, transform 0.2s;
+    backdrop-filter: blur(4px);
+}
+
+#btn-logout:hover, #btn-bg:hover {
+    background: #EB459E; 
+    transform: scale(1.1);
+}

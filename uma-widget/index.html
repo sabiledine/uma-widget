@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Uma Widget - X_EVENT</title>
+    <link rel="icon" type="image/png" href="img/karats_logo.png">
+    <link rel="stylesheet" href="style.css">
+    <script src="script.js" defer></script>
+</head>
+<body>
+    <div id="login-screen" class="overlay">
+        <div class="login-box">
+            <h2>Who are you?</h2>
+            <div class="login-form-row">
+                <input type="text" id="username-input" placeholder="Pseudo..." style="width: 120px;">
+                <input type="password" id="pin-input" placeholder="PIN" maxlength="4" style="width: 60px;">
+                <button id="btn-go">Go</button>
+            </div>
+        </div>
+    </div>
+
+    <main class="widget" id="main-widget" style="display: none;">
+        <div class="gradient-overlay"></div>
+
+        <header class="top-row">
+            <div class="date-container">
+                <div id="day-name">Day</div>
+                <div id="date-num">00/00</div>
+            </div>
+            
+            <div class="header-right">
+                <div class="sync-status" id="last-update-text">
+                    Sync: --
+                </div>
+                <button id="btn-bg" title="Change background">🎨</button>
+                <button id="btn-logout" title="Logout">✖</button>
+            </div>
+        </header>
+
+        <section class="stats-row">
+            <div class="stat-col">
+                <div class="icon"><img class="stat-icon" src="img/tp_logo.png" alt="tp"></div>
+                <div class="stat-value"><span id="val-tp">--</span>/100</div>
+                <div class="stat-sub" id="sub-tp">Calcul...</div>
+            </div>
+            
+            <div class="stat-col">
+                <div class="icon"><img class="stat-icon" src="img/rp_logo.png" alt="rp"></div>
+                <div class="stat-value"><span id="val-rp">--</span>/5</div>
+                <div class="stat-sub" id="sub-rp">Calcul...</div>
+            </div>
+            
+            <div class="stat-col">
+                <div class="icon"><img class="stat-icon" src="img/karats_logo.png" alt="karats"></div>
+                <div class="stat-value" id="val-karats">--</div>
+                <div class="stat-sub">free karats</div>
+            </div>
+        </section>
+    </main>
+
+</body>
+</html>
