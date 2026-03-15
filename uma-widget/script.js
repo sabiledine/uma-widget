@@ -2,9 +2,10 @@
 const FIREBASE_BASE_URL = "https://uma-widget-default-rtdb.europe-west1.firebasedatabase.app/users/";
 let currentUser = null;
 
-// Login and Logout
-function checkUser() {
-    // We read memory only if the user is unknown
+// --- AUTHENTICATION & UI MANAGEMENT ---
+
+function checkUserSession() {
+    // Read local memory if the user is unknown in the current session
     if (!currentUser) {
         const urlParams = new URLSearchParams(window.location.search);
         currentUser = urlParams.get('user') || localStorage.getItem('uma_user');
@@ -23,176 +24,213 @@ function checkUser() {
         localStorage.setItem('uma_user', currentUser);
         document.title = `Uma Widget - ${currentUser}`;
         
-        fetchData();
+        fetchDataFromCloud();
     }
 }
 
-function saveUser() {
-    const pseudoInput = document.getElementById('username-input');
+function handleLogin() {
+    const usernameInput = document.getElementById('username-input');
     const pinInput = document.getElementById('pin-input');
     
-    const pseudo = pseudoInput ? pseudoInput.value.trim() : "";
-    const pin = pinInput ? pinInput.value.trim() : "";
+    const username = usernameInput ? usernameInput.value.trim() : "";
+    const pinCode = pinInput ? pinInput.value.trim() : "";
     
-    if (pseudo !== "" && pin !== "") {
-        const tempUser = `${pseudo}-${pin}`; 
+    if (username !== "" && pinCode !== "") {
+        const tempUserId = `${username}-${pinCode}`; 
         
-        // Ask firebase if the acc exists
-        const checkUrl = `${FIREBASE_BASE_URL}${tempUser}.json`;
+        // Ask Firebase if the account exists
+        const checkUrl = `${FIREBASE_BASE_URL}${tempUserId}.json`;
         
         fetch(checkUrl)
             .then(response => response.json())
             .then(data => {
                 if (data !== null) {
-                    // The account exists
-                    currentUser = tempUser;
-                    checkUser(); // Launch widget
+                    // The account exists, log the user in
+                    currentUser = tempUserId;
+                    checkUserSession(); 
                 } else {
-                    // the acc isn't in the firebase
-                    alert("⮽ Username or password incorrect or does not exists!");
+                    alert("⮽ Username or pin code incorrect or does not exist!");
                 }
             })
             .catch(error => {
-                console.error("Erreur de vérification:", error);
-                alert("⚠  Network error! Can't check if login exist.");
+                console.error("Verification error:", error);
+                alert("⚠ Network error! Cannot check if login exists.");
             });
             
     } else {
-        alert("Veuillez entrer un pseudo ET un code PIN !");
+        alert("Please enter a username AND a pin code!");
     }
 }
-function logoutUser() {
+
+function handleLogout() {
     localStorage.removeItem('uma_user');
     currentUser = null;
-    window.history.replaceState({}, document.title, window.location.pathname);
-    checkUser();
-}
-function changeBackground() {
-    const newUrl = prompt("Paste background link (ex: Imgur, Discord, Pintrest, etc.) :\nIf you want to go back to default put nothing");
     
-    // If the user did not paste anything
-    if (newUrl !== null) { 
-        const widget = document.querySelector('.widget');
+    // Clean up the URL parameters if any
+    window.history.replaceState({}, document.title, window.location.pathname);
+    checkUserSession();
+}
+
+function changeBackground() {
+    const newBackgroundUrl = prompt("Paste background link (ex: Imgur, Discord, Pinterest, etc.) :\nLeave empty to revert to default.");
+    
+    // If the user didn't cancel the prompt
+    if (newBackgroundUrl !== null) { 
+        const widgetContainer = document.querySelector('.widget');
         
-        if (newUrl.trim() === "") {
-            // Default image
-            widget.style.backgroundImage = "url('img/background.jpg')";
+        if (newBackgroundUrl.trim() === "") {
+            // Revert to default local image
+            widgetContainer.style.backgroundImage = "url('img/background.jpg')";
         } else {
-            // Apply new image
-            widget.style.backgroundImage = `url('${newUrl}')`;
+            // Apply new custom image
+            widgetContainer.style.backgroundImage = `url('${newBackgroundUrl}')`;
         }
 
-        // Save image link in firebase
-        const finalUrl = `${FIREBASE_BASE_URL}${currentUser}.json`;
-        fetch(finalUrl, {
+        // Save the new image link in Firebase
+        const updateUrl = `${FIREBASE_BASE_URL}${currentUser}.json`;
+        fetch(updateUrl, {
             method: 'PATCH',
             headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ bg_url: newUrl })
-        }).catch(err => console.error("Erreur de sauvegarde du fond :", err));
+            body: JSON.stringify({ bg_url: newBackgroundUrl })
+        }).catch(err => console.error("Error saving background:", err));
     }
 }
-// Event litsener
+
+// --- EVENT LISTENERS ---
+
 document.addEventListener('DOMContentLoaded', () => {
     const inputField = document.getElementById('username-input');
     const pinField = document.getElementById('pin-input');
-    const btnGo = document.getElementById('btn-go'); // go button
-    const btnLogout = document.getElementById('btn-logout'); // logout button
-    const btnBg = document.getElementById('btn-bg'); // // background button
-
     
-    // Clicks
-    if (btnGo) btnGo.addEventListener('click', saveUser);
-    if (btnLogout) btnLogout.addEventListener('click', logoutUser);
-    if (btnBg) btnBg.addEventListener('click', changeBackground);
-    // Enter key
-    const triggerEnter = function (e) {
-        if (e.key === 'Enter') saveUser();
+    const btnLogin = document.getElementById('btn-go'); 
+    const btnLogout = document.getElementById('btn-logout'); 
+    const btnBackground = document.getElementById('btn-bg'); 
+
+    // Click events
+    if (btnLogin) btnLogin.addEventListener('click', handleLogin);
+    if (btnLogout) btnLogout.addEventListener('click', handleLogout);
+    if (btnBackground) btnBackground.addEventListener('click', changeBackground);
+    
+    // Enter key support for login form
+    const triggerEnterKey = function (e) {
+        if (e.key === 'Enter') handleLogin();
     };
-    if (inputField) inputField.addEventListener('keypress', triggerEnter);
-    if (pinField) pinField.addEventListener('keypress', triggerEnter);
+    if (inputField) inputField.addEventListener('keypress', triggerEnterKey);
+    if (pinField) pinField.addEventListener('keypress', triggerEnterKey);
 });
 
-// Operations and calender
-function updateCalendar() {
-    const now = new Date();
+// --- WIDGET LOGIC & CALCULATIONS ---
+
+function updateCalendarWidget() {
+    const currentDate = new Date();
+    
+    // Format day (e.g., "Mon", "Tue")
     const optionsDay = { weekday: 'short' }; 
-    const dayName = new Intl.DateTimeFormat('en-US', optionsDay).format(now);
+    const formattedDay = new Intl.DateTimeFormat('en-US', optionsDay).format(currentDate);
     
-    const month = String(now.getMonth() + 1).padStart(2, '0');
-    const day = String(now.getDate()).padStart(2, '0');
+    // Format Month/Day (e.g., "05/12")
+    const formattedMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
+    const formattedDateNum = String(currentDate.getDate()).padStart(2, '0');
     
-    document.getElementById('day-name').textContent = dayName;
-    document.getElementById('date-num').textContent = `${month}/${day}`;
+    document.getElementById('day-name').textContent = formattedDay;
+    document.getElementById('date-num').textContent = `${formattedMonth}/${formattedDateNum}`;
 }
 
-function calculateRegen(savedTP, savedRP, lastUpdateTimestamp) {
-    const nowTimestamp = Math.floor(Date.now() / 1000); 
-    const secondsElapsed = nowTimestamp - lastUpdateTimestamp;
+function calculateRegeneration(cloudData) {
+    const currentUnixTime = Math.floor(Date.now() / 1000); 
 
-    // Calcul TP
-    const tpRegenTime = 600; 
-    const tpGained = Math.floor(secondsElapsed / tpRegenTime);
-    let currentTP = parseInt(savedTP) + tpGained;
+    // --- TP CALCULATION ---
+    // Fallback chain: TP specific update -> General update -> Right now
+    const tpLastUpdate = cloudData.last_update_tp || cloudData.last_update || currentUnixTime;
+    const secondsElapsedTP = Math.max(0, currentUnixTime - tpLastUpdate);
     
-    if (currentTP >= 100) {
-        currentTP = 100;
+    const tpRegenTimeSeconds = 600; // 10 minutes per TP
+    const tpGained = Math.floor(secondsElapsedTP / tpRegenTimeSeconds);
+    let calculatedTP = parseInt(cloudData.tp) + tpGained;
+    
+    if (calculatedTP >= 100) {
+        calculatedTP = 100;
         document.getElementById('sub-tp').textContent = "Max";
     } else {
-        const secondsToNextTP = tpRegenTime - (secondsElapsed % tpRegenTime);
-        const minutesToNextTP = Math.floor(secondsToNextTP / 60);
-        document.getElementById('sub-tp').textContent = `+1 in ${minutesToNextTP}m`;
-    }
+        // Calculate remaining time for a full gauge (100)
+        const totalSecondsNeededTP = (100 - parseInt(cloudData.tp)) * tpRegenTimeSeconds;
+        let remainingSecondsTP = totalSecondsNeededTP - secondsElapsedTP;
 
-    // Calcul RP
-    const rpRegenTime = 7200;
-    const rpGained = Math.floor(secondsElapsed / rpRegenTime);
-    let currentRP = parseInt(savedRP) + rpGained;
+        const hoursLeft = Math.floor(remainingSecondsTP / 3600);
+        const minutesLeft = Math.floor((remainingSecondsTP % 3600) / 60);
 
-    if (currentRP >= 5) {
-        currentRP = 5;
-        document.getElementById('sub-rp').textContent = "Max";
-    } else {
-        const secondsToNextRP = rpRegenTime - (secondsElapsed % rpRegenTime);
-        const hoursToNextRP = Math.floor(secondsToNextRP / 3600);
-        const minutesToNextRP = Math.floor((secondsToNextRP % 3600) / 60);
-        
-        if (hoursToNextRP > 0) {
-            document.getElementById('sub-rp').textContent = `+1 in ${hoursToNextRP}h ${minutesToNextRP}m`;
+        if (hoursLeft > 0) {
+            document.getElementById('sub-tp').textContent = `${hoursLeft}h ${minutesLeft}m`;
         } else {
-            document.getElementById('sub-rp').textContent = `+1 in ${minutesToNextRP}m`;
+            document.getElementById('sub-tp').textContent = `${minutesLeft}m`;
         }
     }
 
-    document.getElementById('val-tp').textContent = currentTP;
-    document.getElementById('val-rp').textContent = currentRP;
+    // --- RP CALCULATION ---
+    const rpLastUpdate = cloudData.last_update_rp || cloudData.last_update || currentUnixTime;
+    const secondsElapsedRP = Math.max(0, currentUnixTime - rpLastUpdate);
+    
+    const rpRegenTimeSeconds = 7200; // 2 hours per RP
+    const rpGained = Math.floor(secondsElapsedRP / rpRegenTimeSeconds);
+    let calculatedRP = parseInt(cloudData.rp) + rpGained;
+
+    if (calculatedRP >= 5) {
+        calculatedRP = 5;
+        document.getElementById('sub-rp').textContent = "Max";
+    } else {
+        // Calculate remaining time for a full gauge (5)
+        const totalSecondsNeededRP = (5 - parseInt(cloudData.rp)) * rpRegenTimeSeconds;
+        let remainingSecondsRP = totalSecondsNeededRP - secondsElapsedRP;
+
+        const hoursLeft = Math.floor(remainingSecondsRP / 3600);
+        const minutesLeft = Math.floor((remainingSecondsRP % 3600) / 60);
+
+        if (hoursLeft > 0) {
+            document.getElementById('sub-rp').textContent = `${hoursLeft}h ${minutesLeft}m`;
+        } else {
+            document.getElementById('sub-rp').textContent = `${minutesLeft}m`;
+        }
+    }
+
+    // Render calculated values to the DOM
+    document.getElementById('val-tp').textContent = calculatedTP;
+    document.getElementById('val-rp').textContent = calculatedRP;
 }
 
-// Data collection
-function fetchData() {
+// --- DATA FETCHING ---
+
+function fetchDataFromCloud() {
     if (!currentUser) return;
 
-    const finalUrl = `${FIREBASE_BASE_URL}${currentUser}.json`;
+    const dataUrl = `${FIREBASE_BASE_URL}${currentUser}.json`;
 
-    fetch(finalUrl)
+    fetch(dataUrl)
         .then(response => {
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
             return response.json();
         })
-        .then(data => {
-            if (data) {
-                document.getElementById('val-karats').textContent = data.karats;
+        .then(cloudData => {
+            if (cloudData) {
+                // Render Karats
+                document.getElementById('val-karats').textContent = cloudData.karats;
 
-                if (data.bg_url && data.bg_url.trim() !== "") {
-                    document.querySelector('.widget').style.backgroundImage = `url('${data.bg_url}')`;
+                // Handle Background image rendering
+                if (cloudData.bg_url && cloudData.bg_url.trim() !== "") {
+                    document.querySelector('.widget').style.backgroundImage = `url('${cloudData.bg_url}')`;
                 } else {
                     document.querySelector('.widget').style.backgroundImage = "url('img/background.jpg')";
                 }
 
-                const dateSync = new Date(data.last_update * 1000);
-                const timeString = dateSync.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
-                document.getElementById('last-update-text').textContent = `Sync: ${timeString}`;
+                // Render latest sync timestamp in the UI
+                const latestUpdateTimestamp = Math.max(cloudData.last_update_tp || 0, cloudData.last_update_rp || 0, cloudData.last_update || 0);
+                if (latestUpdateTimestamp > 0) {
+                    const syncDate = new Date(latestUpdateTimestamp * 1000);
+                    const formattedTimeString = syncDate.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit' });
+                    document.getElementById('last-update-text').textContent = `Sync: ${formattedTimeString}`;
+                }
 
-                calculateRegen(data.tp, data.rp, data.last_update);
+                // Push all data to calculate real-time regeneration
+                calculateRegeneration(cloudData);
             } else {
                 document.getElementById('last-update-text').textContent = "Waiting for game...";
             }
@@ -203,13 +241,15 @@ function fetchData() {
         });
 }
 
-// Initialisation
-updateCalendar();
-checkUser();
+// --- INITIALIZATION ---
 
+updateCalendarWidget();
+checkUserSession();
+
+// Setup polling every 10 seconds
 setInterval(() => {
     if (currentUser) {
-        updateCalendar();
-        fetchData();
+        updateCalendarWidget();
+        fetchDataFromCloud();
     }
 }, 10000);
