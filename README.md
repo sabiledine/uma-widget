@@ -65,7 +65,7 @@ This repository is a monorepo containing all components of the Uma Widget projec
 | Directory | Description |
 | :--- | :--- |
 | `uma-widget-src-android/` | Android native source code (Kotlin). Contains the UI, background processing, and widget logic. |
-| `uma-widget-src-scanner/` | PC data capture tool source code. |
+| `uma-widget-src-scanner/` | PC data capture tool source code. made with python using notably [ddddocr-rs](https://github.com/mzdk100/ddddocr-rs) |
 | `uma-widget/` | Web components, JS calculations, and Netlify deployment configs.|
 #### if you need more precise information reach me out on discord x.event, and for transparency i made usage of ai to document myself faster on kotlin i can't tell if it's good or not and i hate a bit this tool since i'm a beginner and it only makes me feel bad as a developer to see it search things way better than i do, and i hate ai a bit but i also used it for the readme strucure too.
 ## ⚖️ License & Disclaimer
