@@ -1,0 +1,291 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/app_background_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop"
+        android:visibility="gone" />
+
+    <ScrollView
+        android:id="@+id/main_scrollview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:overScrollMode="never"
+        android:scrollbars="none"
+        android:fadeScrollbars="true"
+        android:background="@drawable/background">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:padding="12dp"
+            android:gravity="center_horizontal">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:background="#FF7DB4"
+                android:gravity="center"
+                android:padding="10dp"
+                android:layout_marginBottom="0dp"
+                app:layout_constraintTop_toTopOf="parent">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="CONFIGURATION JOUEUR"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold"
+                    android:letterSpacing="0.05"/>
+            </LinearLayout>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="0dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:padding="12dp">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Pseudo"
+                        android:textColor="#1A2F4B"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <EditText
+                        android:id="@+id/input_pseudo"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/input_uma_shape"
+                        android:hint="Nom du Trainer..."
+                        android:textColorHint="#AAB4C1"
+                        android:textColor="#1A2F4B"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:inputType="textNoSuggestions"
+                        android:layout_marginBottom="8dp"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Code PIN"
+                        android:textColor="#1A2F4B"
+                        android:textSize="12sp"
+                        android:textStyle="bold"
+                        android:layout_marginBottom="4dp"/>
+
+                    <EditText
+                        android:id="@+id/input_pin"
+                        android:layout_width="match_parent"
+                        android:layout_height="45dp"
+                        android:background="@drawable/input_uma_shape"
+                        android:hint="4 chiffres"
+                        android:textColorHint="#AAB4C1"
+                        android:textColor="#1A2F4B"
+                        android:paddingStart="12dp"
+                        android:paddingEnd="12dp"
+                        android:inputType="numberPassword"
+                        android:maxLength="4"/>
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <androidx.cardview.widget.CardView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:cardBackgroundColor="#FFFFFF"
+                app:cardCornerRadius="8dp"
+                app:cardElevation="2dp"
+                android:layout_marginBottom="12dp">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="#76D743"
+                        android:padding="8dp"
+                        android:gravity="center_vertical">
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:src="@drawable/karats_logo"
+                            android:layout_marginStart="8dp"
+                            android:layout_marginEnd="8dp"/>
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="IMAGE DE FOND WIDGET"
+                            android:textColor="#FFFFFF"
+                            android:textSize="13sp"
+                            android:textStyle="bold"/>
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:padding="12dp">
+
+                        <EditText
+                            android:id="@+id/input_bg_url"
+                            android:layout_width="match_parent"
+                            android:layout_height="45dp"
+                            android:background="@drawable/input_uma_shape"
+                            android:hint="Lien URL de l'image..."
+                            android:textColorHint="#AAB4C1"
+                            android:textColor="#1A2F4B"
+                            android:paddingStart="12dp"
+                            android:paddingEnd="12dp"
+                            android:inputType="textUri"
+                            android:layout_marginBottom="8dp"/>
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:text="Alignement vertical"
+                            android:textColor="#1A2F4B"
+                            android:textSize="11sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp"/>
+
+                        <RadioGroup
+                            android:id="@+id/radio_group_align"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:textColor="#1A2F4B"
+                            android:layout_marginBottom="8dp">
+
+                            <RadioButton
+                                android:id="@+id/radio_top"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Haut"
+                                android:textColor="#1A2F4B"
+                                android:textSize="12sp"/>
+                            <RadioButton
+                                android:id="@+id/radio_center"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Centre"
+                                android:textSize="12sp"
+                                android:textColor="#1A2F4B"
+                                android:checked="true"/>
+                            <RadioButton
+                                android:id="@+id/radio_bottom"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:text="Bas"
+                                android:textColor="#1A2F4B"
+                                android:textSize="12sp"/>
+                        </RadioGroup>
+
+                        <Switch
+                            android:id="@+id/switch_text_color"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="38dp"
+                            android:text="Couleur du texte en Noir"
+                            android:textColor="#1A2F4B"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:layout_marginBottom="4dp"
+                            android:thumbTint="#FF7DB4"
+                            android:trackTint="#BBFF7DB4"/>
+
+                        <Switch
+                            android:id="@+id/switch_app_bg"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:minHeight="38dp"
+                            android:text="Utiliser comme fond d'application"
+                            android:textColor="#1A2F4B"
+                            android:textSize="13sp"
+                            android:textStyle="bold"
+                            android:thumbTint="#76D743"
+                            android:trackTint="#BB76D743"/>
+                    </LinearLayout>
+
+                </LinearLayout>
+            </androidx.cardview.widget.CardView>
+
+            <Button
+                android:id="@+id/btn_save"
+                android:layout_width="match_parent"
+                android:layout_height="55dp"
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@drawable/btn_uma_perfect"
+                android:elevation="2dp"
+                android:gravity="center"
+                android:insetTop="0dp"
+                android:insetBottom="0dp"
+                android:paddingBottom="8dp"
+                android:singleLine="true"
+                android:stateListAnimator="@null"
+                android:text="Sauvegarder &amp; Synchroniser"
+                android:textColor="#FFFFFF"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                app:backgroundTint="@null" />
+
+            <LinearLayout
+                android:id="@+id/container_support"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="12dp"
+                android:layout_marginBottom="4dp"
+                android:background="@drawable/rounded_support_background"
+                android:clickable="true"
+                android:contentDescription="Support me !"
+                android:elevation="4dp"
+                android:focusable="true"
+                android:gravity="center_vertical"
+                android:orientation="horizontal"
+                android:padding="8dp">
+
+                <ImageView
+                    android:id="@+id/btn_reseau_social"
+                    android:layout_width="18dp"
+                    android:layout_height="18dp"
+                    android:src="@drawable/ic_straw_page" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="8dp"
+                    android:layout_marginEnd="4dp"
+                    android:text="support me !"
+                    android:textColor="#FFFFFF"
+                    android:textSize="12sp"
+                    android:textStyle="bold" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </ScrollView>
+
+</FrameLayout>

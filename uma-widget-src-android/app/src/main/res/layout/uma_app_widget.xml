@@ -1,0 +1,178 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/widget_main_layout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@drawable/widget_shape"
+    android:clipToOutline="true">
+
+    <ImageView
+        android:id="@+id/widget_background_img"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scaleType="centerCrop" />
+
+    <TextView
+        android:id="@+id/tv_no_bg_message"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:text="No background configured"
+        android:textColor="#AA716363"
+        android:textSize="14sp"
+        android:textStyle="italic"
+        android:visibility="gone" />
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_overlay" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="12dp">
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:orientation="vertical"
+            android:gravity="start">
+
+            <TextView
+                android:id="@+id/widget_day"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Fri"
+                android:textColor="#FFFFFF"
+                android:textSize="18sp"
+                android:textStyle="bold"
+                android:shadowColor="#80000000"
+                android:shadowDx="2"
+                android:shadowDy="2"
+                android:shadowRadius="3" />
+
+            <TextView
+                android:id="@+id/widget_date"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="-6dp"
+                android:text="03/27"
+                android:textColor="#FFFFFF"
+                android:textSize="32sp"
+                android:textStyle="bold|italic"
+                android:shadowColor="#80000000"
+                android:shadowDx="4"
+                android:shadowDy="4"
+                android:shadowRadius="3" />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/tv_sync_status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:background="@drawable/sync_badge"
+            android:paddingLeft="8dp"
+            android:paddingRight="8dp"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp"
+            android:text="Sync: --"
+            android:textColor="#FFFFFF"
+            android:textSize="10sp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:orientation="horizontal"
+            android:weightSum="3"
+            android:baselineAligned="false">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/tp_logo" />
+                <TextView
+                    android:id="@+id/tv_tp_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="--/100"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_tp_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Max"
+                    android:textColor="#DDDDDD"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/rp_logo" />
+                <TextView
+                    android:id="@+id/tv_rp_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="--/5"
+                    android:textColor="#FFFFFF"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_rp_time"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Max"
+                    android:textColor="#DDDDDD"
+                    android:textSize="11sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical">
+                <ImageView
+                    android:layout_width="28dp"
+                    android:layout_height="28dp"
+                    android:src="@drawable/karats_logo" />
+                <TextView
+                    android:id="@+id/tv_karats_value"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="--"
+                    android:textColor="#FFD700"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+                <TextView
+                    android:id="@+id/tv_free_karats_label"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="free carats"
+                    android:textColor="#DDDDDD"
+                    android:textSize="11sp" />
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</FrameLayout>

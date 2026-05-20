@@ -1,0 +1,30 @@
+{
+  "project_info": {
+    "project_number": "652724267214",
+    "firebase_url": "https://uma-widget-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "uma-widget",
+    "storage_bucket": "uma-widget.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:652724267214:android:32d455d62604dec249489f",
+        "android_client_info": {
+          "package_name": "com.example.umawidget"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCfJ-mkD2q6wR49E7NqSpPaPAQZGAuZUJM"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
