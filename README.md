@@ -17,6 +17,11 @@ If you want to install the tools, please navigate to the **[Releases](../../rele
 ## 📖 Usage Guide
 
 ### 1. Setup the PC Scanner
+**Unzip the scanner** launch the uma-widget-scanner.exe and create your account.
+<p align="center">
+  <img src="README/umascanner preview.png" alt="login interface" width="600">
+</p>
+
 Launch the **PC Scanner** while your game is running to fetch your data.
 <p align="center">
   <img src="README/umascanner preview.png" alt="Scanner Console Interface" width="600">
