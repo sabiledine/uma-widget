@@ -17,9 +17,15 @@ If you want to install the tools, please navigate to the **[Releases](../../rele
 ## 📖 Usage Guide
 
 ### 1. Setup the PC Scanner
-**Unzip the scanner** launch the uma-widget-scanner.exe and create your account.
+**Unzip the scanner** launch the uma-widget-scanner.exe and create your account. 
 <p align="center">
-  <img src="README/umascanner preview.png" alt="login interface" width="600">
+  <img src="README/loginscanner.png" alt="login interface" width="200">
+</p>
+
+**IF YOU ALREADY HAVE AN ACCOUNT :** 1. Just create a new account **but don't scan**, 2. Go in the **user_config.txt** file or create a new one than put your **username-pincode** it should look something like this.
+
+<p align="center">
+  <img src="README/image.png" alt="how to login if u already have an account" width="200">
 </p>
 
 Launch the **PC Scanner** while your game is running to fetch your data.
@@ -72,6 +78,7 @@ This repository is a monorepo containing all components of the Uma Widget projec
 | `uma-widget-src-android/` | Android native source code (Kotlin). Contains the UI, background processing, and widget logic. |
 | `uma-widget-src-scanner/` | PC data capture tool source code. made with python using notably [ddddocr-rs](https://github.com/mzdk100/ddddocr-rs) |
 | `uma-widget/` | Web components, JS calculations, and Netlify deployment configs.|
+#### The database i used is firebase i store informations based on the users each users has it's information, tp/rp timers,bg_url, etc.... 
 #### if you need more precise information reach me out on discord x.event, and for transparency i made usage of ai to document myself faster on kotlin i can't tell if it's good or not and i hate a bit this tool since i'm a beginner and it only makes me feel bad as a developer to see it search things way better than i do, and i hate ai a bit but i also used it for the readme strucure too.
 ## ⚖️ License & Disclaimer
 This is a fan-made tool and is not affiliated with Cygames. Use responsibly at your own risk.
